@@ -1,21 +1,29 @@
 const img = document.getElementById('imgSemaforo')
 const buttons = document.getElementById('buttons-section')
+let colorIndex = 0
+let intervalId = null
 
 const trafficLight = (event) => {
-    let cor = event.target.id 
-    if (cor == 'red') {
-        turnOn.red()
-    } else if (cor == 'yellow') {
-        turnOn.yellow()
-    } else if (cor == 'green') {
-        turnOn.green()
-    }
+    stopAutomatic();
+    turnOn[event.target.id]();
+}
+
+const changeColor = () => {
+    const colors = ['red', 'yellow', 'green']
+    let colorIndex = colors[Math.floor(Math.random()*colors.length)]
+    turnOn[colorIndex]();
+    
+}
+
+const stopAutomatic = () => {
+    clearInterval(intervalId);
 }
 
 const turnOn = {
     'red': () => img.src = 'imgs/vermelho.png',
     'yellow': () => img.src = 'imgs/amarelo.png',
-    'green': () => img.src = 'imgs/verde.png'
+    'green': () => img.src = 'imgs/verde.png',
+    'automatic': () => intervalId = setInterval(changeColor, 1000)
 }
 
 
